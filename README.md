@@ -123,7 +123,6 @@ group :development do, :test do
   gem 'Rubocop', require: false
 end
 
-
 ```
 
 now run
@@ -173,7 +172,7 @@ We also originally wanted to utilise the gem 'geocoder' to display a map locatin
 
 The solution to this was to manually input the values within the associated controller.
 
-## Postgres vs Sqlite3
+### Postgres vs Sqlite3
 A fun new challenge we found right before the deadline, is that sqlite3 will let you search against booleans and integers using the same params as a regular string search. However, when we swapped to PG for heroku deployment, our entire search function errored out with each search, and with only cryptic messages to help us debunk the problems. Trial and error proved best value!
 
 ### Favourites
