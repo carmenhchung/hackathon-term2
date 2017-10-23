@@ -1,5 +1,6 @@
 # This takes care of our puppies project
 class PuppiesController < ApplicationController
+  before_action :authenticate_user!, only: [:enquire]
   before_action :set_puppy, only: %i[show edit update destroy]
 
   # GET /puppies
@@ -49,16 +50,26 @@ class PuppiesController < ApplicationController
     type = params[:type]
     if type == 'favorite'
       current_user.favorites << @puppy
-      # redirect_to :root, notice: "You favorited #{@puppy.name}"
+      redirect_to :back, notice: "You favorited #{@puppy.name}"
 
     elsif type == 'unfavorite'
       current_user.favorites.delete(@puppy)
-      # redirect_to :back, notice: "Unfavorited #{@puppy.name}"
+      redirect_to :back, notice: "Unfavorited #{@puppy.name}"
 
     else
       # Type missing, nothing happens
       redirect_to :back, notice: 'Nothing happened.'
     end
+  end
+
+  def enquire; end
+
+  def email
+    email = current_user.email
+    contact_name = params[:name]
+    message = params[:message]
+    ContactMailer.send_contact_email(email, contact_name, message).deliver_now
+    redirect_to root_path
   end
 
   # PATCH/PUT /puppies/1
